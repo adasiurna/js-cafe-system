@@ -1,0 +1,115 @@
+body,
+body * {
+    box-sizing: border-box;
+    color: #333;
+    font-family: Arial, Helvetica, sans-serif;
+    text-decoration: none;
+    background-color: bisque;
+}
+body {
+    margin: 0;
+    padding: 0;
+}
+body *::selection {
+	background-color: slateblue;
+	color: white;
+}
+.flex-container {
+    min-height: calc(100vh - 60px);
+}
+header {
+    display: flex;
+    height: 60px;
+    align-items: center;
+    background-color: rgb(188, 146, 209);
+    /* background-image: linear-gradient(rgb(188, 146, 209), rgb(163, 139, 175)); */
+  }
+  #logo {
+    background-color: rgb(188, 146, 209);      
+    letter-spacing: 3px;
+    margin-left: 20px;
+  }
+  #nav {
+    background-color: rgb(188, 146, 209);
+   }
+   #nav > a {
+       display: inline-block;
+       padding: 0 15px;
+       background-color: rgb(188, 146, 209);
+   }
+   #login {
+    background-color: rgb(188, 146, 209);
+       margin-left: auto;
+       margin-right: 20px;
+   }
+   #login > a {
+    background-color: rgb(188, 146, 209);
+   }
+  #messages {
+      font-size: 16px;
+      line-height: 32px;
+      height: 32px;
+      margin: 20px 0 0 20px;
+    }
+
+    /***********************************/
+    /*          TABLES                 */
+    /***********************************/
+  #tables_board {
+      display:flex;
+  }
+  #tables,
+  #board {
+      flex: 1;
+  }
+  #tables {
+    display: grid;
+    justify-content: space-evenly;
+    grid-template-areas:
+      'table1 table2'
+      'table3 table4';
+    grid-gap: 30px;
+    padding: 30px;
+  }
+  #tables > div {
+      padding: 50px;
+  }
+  #table1,
+  #table2,
+  #table3,
+  #table4 {
+    cursor: pointer;
+  }
+  #table1 {grid-area: table1;background-color: chocolate}
+  #table2 {grid-area: table2;background-color: cornflowerblue}
+  #table3 {grid-area: table3;background-color: darkmagenta}
+  #table4 {grid-area: table4;background-color: yellowgreen}
+
+
+  /***********************************/
+  /*          BOARD                 */
+  /***********************************/
+  #board > p {
+      font-size: 10px;
+      font-family: arial;
+      line-height: 16px;
+  }
+  form#numberOfGuests > input {
+    border: 1px solid #555;
+  }
+  form#numberOfGuests > #howMany {
+      width: 40px;
+  }
+  
+  #numberOfGuests,
+  #tableHaveGuests {
+      display: none;
+  }
+  
+  #footer {
+      display:flex;
+      height: 60px;
+      justify-content: center;
+      align-items: center;
+      background-color: darkorchid;
+    }
