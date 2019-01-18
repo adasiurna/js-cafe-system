@@ -1,84 +1,75 @@
 "use strict";
 $(document).ready(function () {
 
-  $('#tables > .table').click(function () {
-    var tableName = $(this).attr("id");
-    var tableIndex = getTableIndex(tableName);
 
-    console.log("Paspaudus ant staliuko: " + tables_data[tableIndex].tableName +
-      " sveciu skaicius: " + tables_data[tableIndex].numberOfGuests);
-    console.log("Sekantis staliukas: " + tables_data[tableIndex + 1].tableName +
-      " sveciu skaicius: " + tables_data[tableIndex + 1].numberOfGuests);
+  $('#tables').on('click', '.table', function () {
+    console.log('clicked a table');
+    let tableIndex = $(this).index();
+    let tableName = this.id;
+    $("#showNumberOfGuestsHere").hide();
+    console.log(tableName + ' tableIndex: ' + tableIndex);
 
-    //JEI STALIUKAS LAISVAS
-    if (!tables_data[tableIndex].ifTaken) {
-      $("#guests_box").html('');
-      $('#tableHaveGuests').hide();
-      $("#numberOfGuests").hide();
-      showGuestsSubmitForm(tableName);
+    // set the active table name to the DOM element with the ID #activeTableName
+    $('#activeTableName').html(tableName);
 
-      console.log("Prieš pasirenkant sveciu skaiciu formoje staliukas: " + tables_data[tableIndex].tableName +
-        " sveciu skaicius: " + tables_data[tableIndex].numberOfGuests);
+    // check if table is free
+    if (!tables_data[tableIndex].numberOfGuests) {
 
-      $('#numberOfGuests').on('click', '#submit', function () {
-        console.log('tableIndex kai staliukas laisvas: ' + tableIndex);
-        //renderina kiekvieno svecio lentele kai passirenkam skaiciu!
-        getNumberOfGuests(tableIndex);
-        console.log('sveciu skaicius sekmingai pasirinktas, renderinsim uzsakymu forma');
-        renderGuestOrderForm(tableIndex);
-
-        console.log("Pasirinkus sveciu skaiciu formoje staliukas: " + tables_data[tableIndex].tableName +
-          " sveciu skaicius: " + tables_data[tableIndex].numberOfGuests);
-        console.log("Sekantis staliukas: " + tables_data[tableIndex + 1].tableName +
-          " sveciu skaicius: " + tables_data[tableIndex + 1].numberOfGuests);
-        console.log('-----------------');
-
-      })
+      // if table is free, render form to insert the number of guests
+      renderGetNumberOfGuestsForm(tableIndex);
 
     } else {
-      $('#tableHaveGuests').hide();
-      $("#guests_box").html('staliukas numeris ' + (tableIndex + 1) + ' yra užimtas, turi ' + tables_data[tableIndex].numberOfGuests + ' svecius');
+      // if table is taken?
+      // todo
+      $('#getNumberOfGuestsForm').show();
+      $('#getNumberOfGuestsForm').html('table ' + tables_data[tableIndex].tableName + ' is taken, has ' + tables_data[tableIndex].numberOfGuests + ' guests');
     }
 
   });
 
+  $('#getNumberOfGuestsForm').on('click', '#submit', function () {
+    var tableIndex = $('#tableIndexIngetNumberOfGuestsForm').val();
+    const howManyGuests = $("#howMany").val();
+
+    // set numberOfGuests value in tables_data
+    tables_data[tableIndex].numberOfGuests = howManyGuests;
+
+    // fix info for user
+    $("#getNumberOfGuestsForm").html(' ');
+    $("#showNumberOfGuestsHere> p > .valueHere").text(howManyGuests);
+    $("#showNumberOfGuestsHere").show();
+
+    // renderGuestOrderForm
+    renderGuestOrderForm(tableIndex);
+
+
+  })
 
 
 
 
-
+  // doc ready function ends
 });
 
-function getTableIndex(tableName) {
-  var tableIndex;
-  switch (tableName) {
-    case "table1":
-      tableIndex = 0;
-      break;
-    case "table2":
-      tableIndex = 1;
-      break;
-    case "table3":
-      tableIndex = 2;
-      break;
-    case "table4":
-      tableIndex = 3;
-      break;
-    default: tableIndex = null
+/////////////////////////////////////////////////////
+/////            FUNCTIONS                     //////
+/////////////////////////////////////////////////////
+
+function renderGetNumberOfGuestsForm(tableIndex) {
+  console.log('----rendering GetNumberOfGuestsForm with tableIndex-----');
+
+  if ($('#getNumberOfGuestsForm').val() == '' &&
+    !tables_data[tableIndex].numberOfGuests) {
+
+    // if table is free render getNumberOfGuestsForm
+    const HTML = '<label for="howMany">How many guests?</label>\
+      <input type="number" name="howMany" id="howMany" min="1" max="6" required>\
+      <input type="hidden" id="tableIndexIngetNumberOfGuestsForm" value="'+ tableIndex + '">\
+      <input type="button" id="submit" value="Submit"> ';
+    $('#getNumberOfGuestsForm').html(HTML);
+  } else {
+    console.log('table is taken');
   }
-  return tableIndex;
-}
-
-function getNumberOfGuests(tableIndex) {
-  var howManyGuests = $("#howMany").val();
-
-  //pridedam sveciu skaiciu i duomenu masyva
-  tables_data[tableIndex].numberOfGuests = howManyGuests;
-
-  // slepiam sveciu skaiciaus pasirinkimo forma ir uzrasom kiek sveciu
-  $("#numberOfGuests").hide();
-  $("#tableHaveGuests> p > .valueHere").text(howManyGuests);
-  $("#tableHaveGuests").show();
 }
 
 function renderGuestOrderForm(tableIndex) {
@@ -122,21 +113,4 @@ function renderGuestOrderForm(tableIndex) {
 
   }
   $("#guests_box").html(HTML);
-
-}
-
-function showGuestsSubmitForm(tableName) {
-  $('#numberOfGuests').show();
-  //var tableName = $(this).attr("id");
-
-  for (var i = 0; i < tables_data.length; i++) {
-    if (tables_data[i].ifTaken) {
-      console.log(tables_data[i].tableName + ' staliukas užimtas');
-    } else {
-      if (tables_data[i].tableName == tableName) {
-        tables_data[i].ifTaken = true;
-        console.log(tables_data[i].tableName + " tables_data[i].ifTaken reikšmė yra: " + tables_data[i].ifTaken);
-      }
-    }
-  }
 }

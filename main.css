@@ -94,15 +94,15 @@ header {
       font-family: arial;
       line-height: 16px;
   }
-  form#numberOfGuests > input {
+  form#getNumberOfGuestsForm > input {
     border: 1px solid #555;
   }
-  form#numberOfGuests > #howMany {
+  form#getNumberOfGuestsForm > #howMany {
       width: 40px;
   }
   
-  #numberOfGuests,
-  #tableHaveGuests {
+  
+  #showNumberOfGuestsHere {
       display: none;
   }
   
