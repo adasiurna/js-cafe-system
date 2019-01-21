@@ -48,7 +48,6 @@ $(document).ready(function () {
   })
 
   $('#guests_box').on('click', '#guestsBoxSubmit', function () {
-    console.log('clicked on the guests box submit button');
     const tableIndex = $('#guests_box > #tableIndexInGuestsBox').val();
 
     // set meals values in tables_data
@@ -61,9 +60,7 @@ $(document).ready(function () {
   })
 
   $('#tables_board').on('click', '#generateBillBtn', function () {
-    console.log('clicked on the generate bill button');
     const tableIndex = $('#guests_box > #tableIndexInGuestsBox').val();
-    console.log('table indeksas: ' + tableIndex);
     const allMeals = tables_data[tableIndex].meals;
 
     for (var i = 0; i < allMeals.length; i++) {
@@ -73,9 +70,7 @@ $(document).ready(function () {
 
         // iterate through every word/number of array 
         var oneOrderArray = allMeals[i].split(" ");
-        console.log(oneOrderArray);
         for (var j = 0; j < oneOrderArray.length; j++) {
-          console.log(oneOrderArray[j]);
           var lookingForFloat = parseFloat(oneOrderArray[j]);
           if (lookingForFloat > 0) {
             if ((oneOrderArray[j + 1]) && (oneOrderArray[j + 1] == 'x2')) {
