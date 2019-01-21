@@ -123,7 +123,7 @@ $(document).ready(function () {
     for (var k = 0; k < tables_data[tableIndex].prices.length; k++) {
       SumOfAllPricesForBill += tables_data[tableIndex].prices[k];
     }
-    HTML += '</ol><h3>Viso: ' + SumOfAllPricesForBill + '</h3>';
+    HTML += '</ol><h3>Total price: ' + SumOfAllPricesForBill + '</h3>';
     $('#generate_bill_here').html(HTML);
     $('#light_box').show();
 
