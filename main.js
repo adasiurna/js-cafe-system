@@ -3,7 +3,6 @@ $(document).ready(function () {
 
 
   $('#tables').on('click', '.table', function () {
-    console.log('clicked a table');
     let tableIndex = $(this).index();
     let tableName = this.id;
 
@@ -12,7 +11,6 @@ $(document).ready(function () {
 
     // if table has guests and ordered meals
     if (tables_data[tableIndex].numberOfGuests && tables_data[tableIndex].meals) {
-      console.log('turim sveciu skaiciu ir turim uzsakytus patiekalus');
       $('#getNumberOfGuestsForm').show();
       $('#getNumberOfGuestsForm').html('table ' + tables_data[tableIndex].tableName + ' is taken, has ' + tables_data[tableIndex].numberOfGuests + ' guests');
       renderGuestOrderForm(tableIndex);
@@ -29,13 +27,11 @@ $(document).ready(function () {
 
       // if table is free, render form to insert the number of guests
       renderGetNumberOfGuestsForm(tableIndex);
-
     }
-
   });
 
   $('#getNumberOfGuestsForm').on('click', '#submit', function () {
-    var tableIndex = $('#tableIndexIngetNumberOfGuestsForm').val();
+    const tableIndex = $('#tableIndexIngetNumberOfGuestsForm').val();
     const howManyGuests = $("#howMany").val();
 
     // set numberOfGuests value in tables_data
@@ -49,35 +45,30 @@ $(document).ready(function () {
     // renderGuestOrderForm
     renderGuestOrderForm(tableIndex);
     $('#guests_box').show();
-
-
-
   })
 
   $('#guests_box').on('click', '#guestsBoxSubmit', function () {
     console.log('clicked on the guests box submit button');
     const tableIndex = $('#guests_box > #tableIndexInGuestsBox').val();
 
+    // set meals values in tables_data
     tables_data[tableIndex].meals.push($('#guests_box > .meal').val());
     tables_data[tableIndex].meals.push($('#guests_box > .drink').val());
     tables_data[tableIndex].meals.push($('#guests_box > .dessert').val());
-    const allMeals = tables_data[tableIndex].meals;
-    console.log(allMeals);
     renderOrderedMealsList(tableIndex);
     $('#orderedMealsList').show();
     renderOrderedMealsList(tableIndex);
-
-
   })
 
   $('#tables_board').on('click', '#generateBillBtn', function () {
     console.log('clicked on the generate bill button');
     const tableIndex = $('#guests_box > #tableIndexInGuestsBox').val();
     console.log('table indeksas: ' + tableIndex);
-    var allMeals = tables_data[tableIndex].meals;
+    const allMeals = tables_data[tableIndex].meals;
 
     for (var i = 0; i < allMeals.length; i++) {
-      // if we have en element 
+
+      // if we have en element in meals array
       if (allMeals[i]) {
 
         // iterate through every word/number of array 
@@ -87,10 +78,8 @@ $(document).ready(function () {
           console.log(oneOrderArray[j]);
           var lookingForFloat = parseFloat(oneOrderArray[j]);
           if (lookingForFloat > 0) {
-            console.log('radom kaina! ji yra: ' + lookingForFloat);
-            // tables_data[tableIndex].prices.push(lookingForFloat);
             if ((oneOrderArray[j + 1]) && (oneOrderArray[j + 1] == 'x2')) {
-              // jei yra x2
+              // if there is x2
               tables_data[tableIndex].prices.push(lookingForFloat * 2);
             } else {
               if ((oneOrderArray[j + 1]) && (oneOrderArray[j + 1] == 'x3')) {
@@ -121,7 +110,7 @@ $(document).ready(function () {
       }
     }
 
-    var HTML = '<h1>' + tables_data[tableIndex].tableName + ' bill</h1><ol>';
+    let HTML = '<h1>' + tables_data[tableIndex].tableName + ' bill</h1><ol>';
     for (var i = 0; i < tables_data[tableIndex].meals.length; i++) {
 
       if (tables_data[tableIndex].meals[i]) {
@@ -129,12 +118,11 @@ $(document).ready(function () {
       }
     }
 
-    // let's count the sum of the table
-    var SumOfAllPricesForBill = 0;
+    // let's count the sum of the table prices
+    let SumOfAllPricesForBill = 0;
     for (var k = 0; k < tables_data[tableIndex].prices.length; k++) {
       SumOfAllPricesForBill += tables_data[tableIndex].prices[k];
     }
-    console.log(SumOfAllPricesForBill);
     HTML += '</ol><h3>Viso: ' + SumOfAllPricesForBill + '</h3>';
     $('#generate_bill_here').html(HTML);
     $('#light_box').show();
@@ -143,17 +131,13 @@ $(document).ready(function () {
 
   $('#light_box').on('click', '.close', function () {
     $('#light_box').hide();
-
     const tableIndex = $('#guests_box > #tableIndexInGuestsBox').val();
-    console.log('table indeksas: ' + tableIndex);
 
     // empty tables_data data
-    console.table('pilnas: ' + tables_data[tableIndex]);
     tables_data[tableIndex].ifTaken = '';
     tables_data[tableIndex].numberOfGuests = '';
     tables_data[tableIndex].meals = [''];
     tables_data[tableIndex].prices = [''];
-    console.table('tuščias: ' + tables_data[tableIndex]);
 
     $('#tableIndexInGuestsBox').hide();
     $("#showNumberOfGuestsHere").hide();
@@ -171,12 +155,12 @@ $(document).ready(function () {
   // doc ready function ends
 });
 
+
 /////////////////////////////////////////////////////
 /////            FUNCTIONS                     //////
 /////////////////////////////////////////////////////
 
 function renderGetNumberOfGuestsForm(tableIndex) {
-  console.log('----rendering GetNumberOfGuestsForm with tableIndex-----');
 
   if ($('#getNumberOfGuestsForm').val() == '' &&
     !tables_data[tableIndex].numberOfGuests) {
@@ -193,9 +177,8 @@ function renderGetNumberOfGuestsForm(tableIndex) {
 }
 
 function renderGuestOrderForm(tableIndex) {
-  console.log('tables_data[tableIndex].numberOfGuests renderGuestOrderForm funkcijoje: ' + tables_data[tableIndex].numberOfGuests);
 
-  var HTML = '<input hidden id="tableIndexInGuestsBox" value="' + tableIndex + '"><hr>\
+  let HTML = '<input hidden id="tableIndexInGuestsBox" value="' + tableIndex + '"><hr>\
         Meal: \
           <select class="meal" name="meal">\
                         <option></option>\
@@ -233,8 +216,8 @@ function renderOrderedMealsList(tableIndex) {
 
       // check if there's is same order
       for (var j = 0; j < i; j++) {
-        var allMeals_i = allMeals[i].substring(1, 6);
-        var allMeals_j = allMeals[j].substring(1, 6);
+        let allMeals_i = allMeals[i].substring(1, 6);
+        let allMeals_j = allMeals[j].substring(1, 6);
 
         // if we have 2 same meals
         if ((allMeals_i) && (allMeals_j) && (allMeals_i == allMeals_j)) {
