@@ -101,7 +101,7 @@ header {
       width: 40px;
   }
   
-  
+  #generateBillBtn,
   #showNumberOfGuestsHere {
       display: none;
   }

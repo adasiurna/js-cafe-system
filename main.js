@@ -67,7 +67,32 @@ $(document).ready(function () {
 
   })
 
+  $('#tables_board').on('click', '#generateBillBtn', function () {
+    console.log('clicked on the generate bill button');
+    const tableIndex = $('#guests_box > #tableIndexInGuestsBox').val();
+    console.log('table indeksas: ' + tableIndex);
+    var allMeals = tables_data[tableIndex].meals;
 
+    for (var i = 0; i < allMeals.length; i++) {
+      // if we have en element 
+      if (allMeals[i]) {
+
+        // iterate through every word/number of array 
+        var oneOrderArray = allMeals[i].split(" ");
+        console.log(oneOrderArray);
+        for (var j = 0; j < oneOrderArray.length; j++) {
+          console.log(oneOrderArray[j]);
+          var lookingForFloat = parseFloat(oneOrderArray[j]);
+          if (lookingForFloat > 0) {
+            console.log('radom kaina! ji yra: ' + lookingForFloat);
+            tables_data[tableIndex].prices.push(lookingForFloat);
+            console.log(tables_data[tableIndex].prices);
+          }
+        }
+      }
+    }
+
+  });
 
 
   // doc ready function ends
@@ -97,7 +122,7 @@ function renderGetNumberOfGuestsForm(tableIndex) {
 function renderGuestOrderForm(tableIndex) {
   console.log('tables_data[tableIndex].numberOfGuests renderGuestOrderForm funkcijoje: ' + tables_data[tableIndex].numberOfGuests);
 
-  var HTML = '<input id="tableIndexInGuestsBox" value="' + tableIndex + '"><hr>\
+  var HTML = '<input hidden id="tableIndexInGuestsBox" value="' + tableIndex + '"><hr>\
         Meal: \
           <select class="meal" name="meal">\
                         <option></option>\
@@ -132,9 +157,48 @@ function renderOrderedMealsList(tableIndex) {
   let HTML = '<ol>';
   for (var i = 0; i < allMeals.length; i++) {
     if (allMeals[i]) {
+
+      // check if there's is same order
+      for (var j = 0; j < i; j++) {
+        var allMeals_i = allMeals[i].substring(1, 6);
+        var allMeals_j = allMeals[j].substring(1, 6);
+
+        // if we have 2 same meals
+        if ((allMeals_i) && (allMeals_j) && (allMeals_i == allMeals_j)) {
+
+          // write x2 or x3 etc to the end of the string of allMeals[j]
+          if (allMeals[j].endsWith('x2')) {
+            allMeals[j] = allMeals[j].replace('x2', 'x3');
+          } else {
+            if (allMeals[j].endsWith('x3')) {
+              allMeals[j] = allMeals[j].replace('x3', 'x4');
+            } else {
+              if (allMeals[j].endsWith('x4')) {
+                allMeals[j] = allMeals[j].replace('x4', 'x5');
+              } else {
+                if (allMeals[j].endsWith('x5')) {
+                  allMeals[j] = allMeals[j].replace('x5', 'x6');
+                } else {
+                  if (allMeals[j].endsWith('x6')) {
+                    allMeals[j] = allMeals[j].replace('x6', 'x7');
+                  } else {
+                    allMeals[j] = allMeals[j] + ' x2';
+                  }
+                }
+              }
+            }
+          }
+
+          // after we adjusted allMeals[j], we can leave allMeals[i] blank...
+          allMeals[i] = '';
+
+          // end of j loop
+        }
+      }
       HTML += '<li>' + allMeals[i] + '</li>';
     }
   }
   HTML += '</ol>';
   $('#orderedMealsList').html(HTML);
+  $('#generateBillBtn').show();
 }
