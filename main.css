@@ -66,24 +66,24 @@ header {
     display: grid;
     justify-content: space-evenly;
     grid-template-areas:
-      'table1 table2'
-      'table3 table4';
+      'Table1 Table2'
+      'Table3 Table4';
     grid-gap: 30px;
     padding: 30px;
   }
   #tables > div {
       padding: 50px;
   }
-  #table1,
-  #table2,
-  #table3,
-  #table4 {
+  #Table1,
+  #Table2,
+  #Table3,
+  #Table4 {
     cursor: pointer;
   }
-  #table1 {grid-area: table1;background-color: chocolate}
-  #table2 {grid-area: table2;background-color: cornflowerblue}
-  #table3 {grid-area: table3;background-color: darkmagenta}
-  #table4 {grid-area: table4;background-color: yellowgreen}
+  #Table1 {grid-area: Table1;background-color: chocolate}
+  #Table2 {grid-area: Table2;background-color: cornflowerblue}
+  #Table3 {grid-area: Table3;background-color: darkmagenta}
+  #Table4 {grid-area: Table4;background-color: yellowgreen}
 
 
   /***********************************/
@@ -105,6 +105,44 @@ header {
   #showNumberOfGuestsHere {
       display: none;
   }
+
+  #light_box {
+    display: none;
+  position: fixed;
+  z-index: 1;
+  padding-top: 100px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.8);
+  }
+
+  #generate_bill_here {
+    position: relative;
+  background-color: bisque;
+  margin: 50px;
+  padding: 50px 100px 50px 250px;
+  width: 90%;
+  max-width: 1200px;
+  }
+
+  .close {
+    color: #999;
+    position: absolute;
+    top: 10px;
+    right: 25px;
+    font-size: 35px;
+    font-weight: bold;
+  }
+
+  .close:hover,
+.close:focus {
+  color: #444;
+  text-decoration: none;
+  cursor: pointer;
+}
   
   #footer {
       display:flex;

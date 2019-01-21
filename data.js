@@ -1,27 +1,27 @@
 var tables_data = [
   {
-    tableName: 'table1',
+    tableName: 'Table1',
     ifTaken: '',
     numberOfGuests: '',
     meals: [],
     prices: []
   },
   {
-    tableName: 'table2',
+    tableName: 'Table2',
     ifTaken: '',
     numberOfGuests: '',
     meals: [],
     prices: []
   },
   {
-    tableName: 'table3',
+    tableName: 'Table3',
     ifTaken: '',
     numberOfGuests: '',
     meals: [],
     prices: []
   },
   {
-    tableName: 'table4',
+    tableName: 'Table4',
     ifTaken: '',
     numberOfGuests: '',
     meals: [],

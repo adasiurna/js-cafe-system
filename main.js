@@ -17,12 +17,15 @@ $(document).ready(function () {
       $('#getNumberOfGuestsForm').html('table ' + tables_data[tableIndex].tableName + ' is taken, has ' + tables_data[tableIndex].numberOfGuests + ' guests');
       renderGuestOrderForm(tableIndex);
       renderOrderedMealsList(tableIndex);
+      $('#guests_box').show();
+      $('#orderedMealsList').show();
 
     } else {
       $('#tableIndexInGuestsBox').hide();
       $("#showNumberOfGuestsHere").hide();
       $('#guests_box').hide();
       $('#orderedMealsList').hide();
+      $('#generateBillBtn').hide();
 
       // if table is free, render form to insert the number of guests
       renderGetNumberOfGuestsForm(tableIndex);
@@ -85,14 +88,84 @@ $(document).ready(function () {
           var lookingForFloat = parseFloat(oneOrderArray[j]);
           if (lookingForFloat > 0) {
             console.log('radom kaina! ji yra: ' + lookingForFloat);
-            tables_data[tableIndex].prices.push(lookingForFloat);
-            console.log(tables_data[tableIndex].prices);
+            // tables_data[tableIndex].prices.push(lookingForFloat);
+            if ((oneOrderArray[j + 1]) && (oneOrderArray[j + 1] == 'x2')) {
+              // jei yra x2
+              tables_data[tableIndex].prices.push(lookingForFloat * 2);
+            } else {
+              if ((oneOrderArray[j + 1]) && (oneOrderArray[j + 1] == 'x3')) {
+                tables_data[tableIndex].prices.push(lookingForFloat * 3);
+              } else {
+                if ((oneOrderArray[j + 1]) && (oneOrderArray[j + 1] == 'x4')) {
+                  tables_data[tableIndex].prices.push(lookingForFloat * 4);
+                } else {
+                  if ((oneOrderArray[j + 1]) && (oneOrderArray[j + 1] == 'x5')) {
+                    tables_data[tableIndex].prices.push(lookingForFloat * 5);
+                  } else {
+                    if ((oneOrderArray[j + 1]) && (oneOrderArray[j + 1] == 'x6')) {
+                      tables_data[tableIndex].prices.push(lookingForFloat * 6);
+                    } else {
+                      if ((oneOrderArray[j + 1]) && (oneOrderArray[j + 1] == 'x7')) {
+                        tables_data[tableIndex].prices.push(lookingForFloat * 7);
+                      } else {
+                        tables_data[tableIndex].prices.push(lookingForFloat);
+                        console.log(tables_data[tableIndex].prices);
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
     }
 
+    var HTML = '<h1>' + tables_data[tableIndex].tableName + ' bill</h1><ol>';
+    for (var i = 0; i < tables_data[tableIndex].meals.length; i++) {
+
+      if (tables_data[tableIndex].meals[i]) {
+        HTML += '<li>' + tables_data[tableIndex].meals[i] + '</li>';
+      }
+    }
+
+    // let's count the sum of the table
+    var SumOfAllPricesForBill = 0;
+    for (var k = 0; k < tables_data[tableIndex].prices.length; k++) {
+      SumOfAllPricesForBill += tables_data[tableIndex].prices[k];
+    }
+    console.log(SumOfAllPricesForBill);
+    HTML += '</ol><h3>Viso: ' + SumOfAllPricesForBill + '</h3>';
+    $('#generate_bill_here').html(HTML);
+    $('#light_box').show();
+
   });
+
+  $('#light_box').on('click', '.close', function () {
+    $('#light_box').hide();
+
+    const tableIndex = $('#guests_box > #tableIndexInGuestsBox').val();
+    console.log('table indeksas: ' + tableIndex);
+
+    // empty tables_data data
+    console.table('pilnas: ' + tables_data[tableIndex]);
+    tables_data[tableIndex].ifTaken = '';
+    tables_data[tableIndex].numberOfGuests = '';
+    tables_data[tableIndex].meals = [''];
+    tables_data[tableIndex].prices = [''];
+    console.table('tuščias: ' + tables_data[tableIndex]);
+
+    $('#tableIndexInGuestsBox').hide();
+    $("#showNumberOfGuestsHere").hide();
+    $('#guests_box').hide();
+    $('#orderedMealsList').hide();
+    $('#generateBillBtn').hide();
+
+    // if table is free, render form to insert the number of guests
+    renderGetNumberOfGuestsForm(tableIndex);
+
+  });
+
 
 
   // doc ready function ends
